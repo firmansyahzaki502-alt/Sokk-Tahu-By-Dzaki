@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOKKK TAHUUUUUU - KASIR</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="halaman-depan" class="container">
+        <h1>SOKKK TAHUUUUUU</h1>
+        <p class="slogan">Cemilan garing, harga miring boyy!</p>
+        <button class="btn-utama" onclick="bukaMenu()">CEK MENU KITA DERR!</button>
+    </div>
+
+    <div id="halaman-menu" class="container" style="display: none;">
+        <h2 class="judul-menu">MENU JAGOAN DERR!</h2>
+        
+        <div class="menu-wrapper">
+            <div class="card">
+                <img src="https://rri.co.id/ramadan/2205600/resep-tahu-crispy-camilan-lezat-untuk-buka-puasa" alt="Tahu">
+                <div class="card-info">
+                    <h3>TAHU CRISPY</h3>
+                    <p>Rp 500</p>
+                </div>
+                <input type="number" id="qty-tahu" value="0" min="0" oninput="hitungTotal()">
+            </div>
+
+            <div class="card">
+                <img src="https://via.placeholder.com/60/ff3333/ffffff?text=Sosis" alt="Sosis">
+                <div class="card-info">
+                    <h3>SOSIS CRISPY</h3>
+                    <p>Rp 1.000</p>
+                </div>
+                <input type="number" id="qty-sosis" value="0" min="0" oninput="hitungTotal()">
+            </div>
+
+            <div class="card">
+                <img src="https://via.placeholder.com/60/333333/ffffff?text=Otak" alt="Otak">
+                <div class="card-info">
+                    <h3>OTAK-OTAK</h3>
+                    <p>Rp 1.000</p>
+                </div>
+                <input type="number" id="qty-otak" value="0" min="0" oninput="hitungTotal()">
+            </div>
+        </div>
+
+        <div class="total-section">
+            <h3>TOTAL: <span class="kuning">Rp <span id="total-semua">0</span></span></h3>
+            
+            <div class="kalkulator-kembalian">
+                <p>Uang Bayar:</p>
+                <input type="number" id="uang-bayar" placeholder="Contoh: 50.000" oninput="hitungKembalian()">
+                <h4 id="label-kembalian">Kembalian: <span class="hijau">Rp <span id="total-kembalian">0</span></span></h4>
+            </div>
+
+            <div class="tombol-grup">
+                <button class="btn-wa" onclick="kirimWA()">KIRIM KE WA</button>
+                <button class="btn-back" onclick="kembali()">KEMBALI</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let totalHargaGlobal = 0;
+
+        function bukaMenu() {
+            document.getElementById('halaman-depan').style.display = 'none';
+            document.getElementById('halaman-menu').style.display = 'block';
+        }
+
+        function kembali() {
+            document.getElementById('halaman-depan').style.display = 'block';
+            document.getElementById('halaman-menu').style.display = 'none';
+        }
+
+        function hitungTotal() {
+            let tahu = document.getElementById('qty-tahu').value * 500;
+            let sosis = document.getElementById('qty-sosis').value * 1000;
+            let otak = document.getElementById('qty-otak').value * 1000;
+            
+            totalHargaGlobal = tahu + sosis + otak;
+            document.getElementById('total-semua').innerText = totalHargaGlobal.toLocaleString('id-ID');
+            hitungKembalian(); // Update kembalian otomatis
+        }
+
+        function hitungKembalian() {
+            let uangBayar = document.getElementById('uang-bayar').value;
+            let kembalian = uangBayar - totalHargaGlobal;
+            
+            if (kembalian < 0) {
+                document.getElementById('total-kembalian').innerText = "0 (Uang Kurang)";
+            } else {
+                document.getElementById('total-kembalian').innerText = kembalian.toLocaleString('id-ID');
+            }
+        }
+
+        function kirimWA() {
+            let qTahu = document.getElementById('qty-tahu').value;
+            let qSosis = document.getElementById('qty-sosis').value;
+            let qOtak = document.getElementById('qty-otak').value;
+            
+            let pesan = `Halo SOKKK TAHUUUUUU!%0AGw Pesan dong:%0A- Tahu: ${qTahu}%0A- Sosis: ${qSosis}%0A- Otak-otak: ${qOtak}%0A%0ATotal: Rp ${totalHargaGlobal.toLocaleString('id-ID')}`;
+            
+            window.open(`https://wa.me/628895089808?text=${pesan}`, '_blank');
+        }
+    </script>
+</body>
+</html>
